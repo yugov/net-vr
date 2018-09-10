@@ -5,7 +5,10 @@ app = Flask(__name__)
 
 @app.route('/', methods=["GET"])
 def get_ip():
-    return request.remote_addr, 200
+    if request.headers.getlist("X-Forwarded-For"):
+        return request.headers.getlist("X-Forwarded-For")[0], 200
+    else:
+        return request.remote_addr, 200
 
 
 if __name__ == '__main__':

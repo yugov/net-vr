@@ -1,7 +1,16 @@
-from flask import Flask, request
+from flask import Flask, request, make_response
 import subprocess
 
 app = Flask(__name__)
+
+
+"""
+Если запрос неправильный- вернем 404
+"""
+
+@app.errorhandler(404)
+def not_found(error):
+    return make_response(jsonify({'error': 'Not found'}), 404)
 
 
 @app.route('/myip', methods=["GET"])
